@@ -1,0 +1,11 @@
+name = "REPLVim"
+uuid = "2a140ba1-97ad-47e0-ac3b-8e555ea992ff"
+authors = ["Andrey Popp <8mayday@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
+REPL = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
+StructTypes = "856f2bd8-1eba-4b0a-8007-ebc267875bd4"
