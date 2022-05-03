@@ -2,6 +2,7 @@ function! s:send_range(startline, endline) abort
   let rv = getreg('"')
   let rt = getregtype('"')
   silent exe a:startline . ',' . a:endline . 'yank'
+  lua require('julia-repl')
   call v:lua.julia_repl_send(trim(@", "\n", 2))
   call setreg('"', rv, rt)
 endfunction
@@ -23,6 +24,7 @@ function! s:send_op(type, ...) abort
   endif
 
   call setreg('"', @", 'V')
+  lua require('julia-repl')
   call v:lua.julia_repl_send(trim(@", "\n", 2))
 
   let &selection = sel_save
