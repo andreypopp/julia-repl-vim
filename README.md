@@ -2,6 +2,8 @@
 
 Julia REPL plugin for vim/neovim
 
+https://user-images.githubusercontent.com/30594/166437124-f81fc776-c72c-4332-990f-10ba3b9dbaf1.mov
+
 ## Usage
 
 Install the support Julia package:
