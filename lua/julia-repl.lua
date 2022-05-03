@@ -132,21 +132,29 @@ function _G.julia_repl_comp(findstart, base)
     local line = vim.api.nvim_get_current_line()
     local line_to_cursor = line:sub(1, pos[2])
     local prefixpos = vim.fn.match(line_to_cursor, '\\k\\(\\k\\|\\.\\)*$')
-    if prefixpos < 1 then prefixpos = 1 end
-    local prefix = line_to_cursor:sub(prefixpos, #line_to_cursor)
-    local cprefixpos = vim.fn.match(prefix, '\\k*$')
-    local cprefix = prefix:sub(cprefixpos + 1, #prefix)
+    if prefixpos < 0 then prefixpos = 0 end
+    return prefixpos
+  else
+    local prefix = vim.fn.match(base, '\\k*$')
+    local pre = ""
+    if prefix > 1 then pre = base:sub(1, prefix) end
     local tick = vim.b.changedtick
-    repl.complete(prefix, function(data)
-      if not data.ok then return end
-      local pos2 = vim.api.nvim_win_get_cursor(0)
-      if pos[1] ~= pos2[1] or pos[2] ~= pos2[2] then return end
-      if tick ~= vim.b.changedtick then return end
-      vim.fn.complete(prefixpos + cprefixpos, data.ok[1])
+    local items = nil
+    repl.complete(base, function(data)
+      if not data.ok then items = false return end
+      if tick ~= vim.b.changedtick then items = false return end
+      items = {}
+      for _, item in ipairs(data.ok[1]) do
+        table.insert(items, pre..item)
+      end
     end)
-    return -3
+    vim.wait(1000, function() return items ~= nil end, 100, false)
+    if items then
+      return {words=items, refresh=false}
+    else
+      return {words={}, refresh=false}
+    end
   end
-  return {words={},refresh=false}
 end
 
 return {setup=setup}
