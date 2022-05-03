@@ -126,7 +126,7 @@ end
 
 function _G.julia_repl_comp(findstart, base)
   local repl = vim.b.julia_repl
-  if repl == nil then return -2 end
+  if repl == nil or repl == vim.NIL then return -2 end
   if findstart == 1 then
     local pos = vim.api.nvim_win_get_cursor(0)
     local line = vim.api.nvim_get_current_line()
