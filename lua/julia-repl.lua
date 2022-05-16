@@ -131,11 +131,12 @@ function _G.julia_repl_comp(findstart, base)
     local pos = vim.api.nvim_win_get_cursor(0)
     local line = vim.api.nvim_get_current_line()
     local line_to_cursor = line:sub(1, pos[2])
-    local prefixpos = vim.fn.match(line_to_cursor, '\\k\\(\\k\\|\\.\\)*$')
+    local prefixpos = vim.fn.match(line_to_cursor,
+                                   '\\(\\k\\|@\\)\\(\\k\\|@\\|\\.\\)*$')
     if prefixpos < 0 then prefixpos = 0 end
     return prefixpos
   else
-    local prefix = vim.fn.match(base, '\\k*$')
+    local prefix = vim.fn.match(base, "\\(\\k\\|@\\)*$")
     local pre = ""
     if prefix > 1 then pre = base:sub(1, prefix) end
     local tick = vim.b.changedtick
