@@ -9,7 +9,7 @@ https://user-images.githubusercontent.com/30594/166437124-f81fc776-c72c-4332-990
 Install the support Julia package:
 ```
 using Pkg
-Pkg.add("https://github.com/andreypopp/julia-repl-vim")
+Pkg.add(url="https://github.com/andreypopp/julia-repl-vim")
 ```
 
 Now when you start `julia` you can do:
