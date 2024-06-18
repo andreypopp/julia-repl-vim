@@ -42,8 +42,8 @@ function! s:restore_cur()
   endif
 endfunction
 
-command -range -bar -nargs=0 JuliaREPLConnect
-      \ lua require('julia-repl').setup()
+command -range -bar -nargs=1 JuliaREPLConnect
+      \ lua require('julia-repl').setup(<f-args>)
 command -range -bar -nargs=0 JuliaREPLSend
       \  call s:store_cur()
       \| call s:send_range(<line1>, <line2>)

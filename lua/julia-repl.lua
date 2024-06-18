@@ -99,21 +99,24 @@ function connect(opts)
   return repl
 end
 
-function setup()
+function setup(po)
   local buf = vim.fn.bufnr()
   local ok, repl = pcall(vim.api.nvim_buf_get_var, buf, 'julia_repl')
   if ok and repl ~= nil then
     repl.close()
   end
+  if po == nil then
+    po = 2345
+  end
   repl = connect {
     host="localhost",
-    port=2345,
+    port=po,
     on_close=function()
       vim.api.nvim_buf_set_var(buf, 'julia_repl', nil)
     end
   }
   vim.api.nvim_buf_set_var(buf, 'julia_repl', repl)
-  vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.julia_repl_comp')
+  --vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.julia_repl_comp')
 end
 
 function _G.julia_repl_send(code)
