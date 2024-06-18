@@ -116,7 +116,9 @@ function setup(po)
     end
   }
   vim.api.nvim_buf_set_var(buf, 'julia_repl', repl)
-  --vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.julia_repl_comp')
+  if vim.g.julia_repl_complete then
+    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.julia_repl_comp')
+  end
 end
 
 function _G.julia_repl_send(code)
