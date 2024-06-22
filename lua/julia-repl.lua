@@ -1,3 +1,4 @@
+callbacks = {}
 function logerror(msg)
   vim.api.nvim_echo({{"julia-repl: "..msg, "ErrorMsg"}}, true, {})
 end
@@ -12,7 +13,6 @@ function connect(opts)
   local port = opts.port or 2345
   local buf = {}
   local id = 0
-  local callbacks = {}
 
   local on_response = function(response)
     data = vim.fn.json_decode(response)
