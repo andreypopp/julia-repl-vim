@@ -1,3 +1,4 @@
+callbacks = {}
 function logerror(msg)
   vim.api.nvim_echo({{"julia-repl: "..msg, "ErrorMsg"}}, true, {})
 end
@@ -12,7 +13,6 @@ function connect(opts)
   local port = opts.port or 2345
   local buf = {}
   local id = 0
-  local callbacks = {}
 
   local on_response = function(response)
     data = vim.fn.json_decode(response)
@@ -99,21 +99,26 @@ function connect(opts)
   return repl
 end
 
-function setup()
+function setup(po)
   local buf = vim.fn.bufnr()
   local ok, repl = pcall(vim.api.nvim_buf_get_var, buf, 'julia_repl')
   if ok and repl ~= nil then
     repl.close()
   end
+  if po == nil then
+    po = 2345
+  end
   repl = connect {
     host="localhost",
-    port=2345,
+    port=po,
     on_close=function()
       vim.api.nvim_buf_set_var(buf, 'julia_repl', nil)
     end
   }
   vim.api.nvim_buf_set_var(buf, 'julia_repl', repl)
-  vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.julia_repl_comp')
+  if vim.g.julia_repl_complete then
+    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.julia_repl_comp')
+  end
 end
 
 function _G.julia_repl_send(code)
